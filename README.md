@@ -22,7 +22,7 @@ Quick access to the frontend web application built using Streamlit:
  (https://share.streamlit.io/akshatananjappa/salesforcaststreamlit/app.py)
 
 ## Architecture Diagram
-![](Diagram.jpeg)
+![](Architecture.png)
 
 ### Codelabs document
 https://codelabs-preview.appspot.com/?file_id=1M49JLASvF8Pfw_X8auKdtac0mHXgCW00HBbo3u1KCag#5
@@ -87,24 +87,3 @@ pip3 install configparser
 > Run `app.py`
 
 Run the WebApp by running `streamlit run app.py`. 
-
-### Prediction Models, Deployment
-
-For forecasting, we have taken a Multivariate Times Series forecasting approach to predict future usage of power by an individual household. For this, we utilized an LSTM to train on our dataset. 
-After multiple training sessions, we have saved our model checkpoints on S3.
-
-Model Deployment:
-For real time inference, we have chosen Amazon Sagemaker to provide predictions on  real-time streaming data. Sagemaker offers an intriguing feature are allowing users to host multiple models on the same end point. 
-
-In order to deploy our saved model, we are required to stored our models in compressed .tar.gz format.
-
-The untarred model directory structure may look like this.
-   >model1
-   >     |--[model_version_number]
-   >         |--variables
-   >         |--saved_model.pb
-   > model2
-   >     |--[model_version_number]
-   >         |--assets
-   >         |--variables
-   >         |--saved_model.pb
