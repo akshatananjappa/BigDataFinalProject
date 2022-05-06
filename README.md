@@ -6,7 +6,7 @@ How to set up the application [Here](https://codelabs-preview.appspot.com/?file_
 
 ![PyPI license](https://img.shields.io/pypi/l/ansicolortags.svg)  [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 
-# CSYE7245 Store Sales Data Analysis for Corporacion Favorita
+# Store Sales Data Analysis for Corporacion Favorita
 
 This repository contains a serverless architecture for data analysis that is robust and can be scaled to incoroprate a multitude of users by using concurrency in lambda functions. This project uses the AWS architecture, mainly - Amazon S3, Amazon ECR and AWS Lambda functions.
 
@@ -29,15 +29,16 @@ https://codelabs-preview.appspot.com/?file_id=1M49JLASvF8Pfw_X8auKdtac0mHXgCW00H
 
 ## Steps to Reproduce Architecture
 ### Roles
-Create an AWS account and manage roles with IAM. The following roles are needed for the workflow of the architecture
-* AWSLambdaKinesisExecutionRole
+Create an AWS account and manage roles with IAM. The following roles are needed for the workflow of the architecture and github actions
+* AmazonEC2ContainerRegistryFullAccess
 * AWSLambdaBasicExecutionRole
 
 AWS CLI or the console can be used to create the above roles
 
 ### Lambda Functions
 All the Lambda functions shown in the architecture diagram have been deployed using SAM (Serverless Application model). Every Lambda function comes with it's own 
-* template.yml
+* store_sales.yml
+* helper.py
 * requirements.txt
 * main.py
 
@@ -60,17 +61,12 @@ These files can be found in the folders in this repo with the prefix **'lambda_'
 
 Go to AWS CloudFormation to check if your stack has been created.
 
-### [Amazon Kinesis Streams](https://aws.amazon.com/kinesis/)
-
-The following code was used to create the Kinesis stream used in this architecture. It is important to create the stream before running the pipeline.
-```
-client.create_stream(StreamName="stream-name", ShardCount=1)
-```
 ### Other Resources
 The template files create the following resources apart from the Lambda functions to support the workflow of the architecture. All the details about these resources are in the template files in the respective folders
 * S3 Bucket 1
 * S3 Bucket 2
-* DynamoDB Table
+* ECR
+* API Gateway
 * CloudWatch
 
 ### Deploying the Streamlit App 
@@ -112,57 +108,3 @@ The untarred model directory structure may look like this.
    >         |--assets
    >         |--variables
    >         |--saved_model.pb
-
-### Creating a SageMaker Model
-A SageMaker Model contains references to a model.tar.gz file in S3 containing serialized model data, and a Docker image used to serve predictions with that model.
-You must package the contents in a model directory (including models, inference.py and external modules) in .tar.gz format in a file named "model.tar.gz" and upload it to S3. If you're on a Unix-based operating system, you can create a "model.tar.gz" using the tar utility:
-```
-tar -czvf model.tar.gz model
-```
-
-After uploading your model.tar.gz to an S3 URI, such as s3://your-bucket/your-models/model.tar.gz, create a SageMaker Model which will be used to generate inferences.
-Creating an Endpoint
-A SageMaker Endpoint hosts your TensorFlow Serving model for real-time inference. The InvokeEndpoint API is used to send data for predictions to your TensorFlow Serving model.
-
-Using Python SDK:
-```
-predictor = tensorflow_serving_model.deploy(initial_instance_count=1,
-                                            framework_version='1.12',
-                                            instance_type='ml.p2.xlarge')
-prediction = predictor.predict(data)
-
-```
-Using boto3 to invoke endpoint:
-
-```
-import boto3
-
-client = boto3.client('sagemaker-runtime')
-custom_attributes = "c000b4f9-df62-4c85-a0bf-7c525f9104a4"  # An example of a trace ID.
-endpoint_name = "..."                                       # Your endpoint name.
-content_type = "..."                                        # The MIME type of the input data in the request body.
-accept = "..."                                              # The desired MIME type of the inference in the response.
-payload = "..."                                             # Payload for inference.
-response = client.invoke_endpoint(
-    EndpointName=endpoint_name, 
-    CustomAttributes=custom_attributes, 
-    ContentType=content_type,
-    Accept=accept,
-    Body=payload
-    )
-
-print(response['CustomAttributes']) 
-```
-
-
-### Deploying to Multi-Model Endpoint
-Multi-Model Endpoint can be used together with Pre/Post-Processing. Each model will need its own inference.py otherwise default handlers will be used. An example of the directory structure of Multi-Model Endpoint and Pre/Post-Processing would look like this:
->   /opt/ml/models/model1/model
-        |--[model_version_number]
-            |--variables
-            |--saved_model.pb
-    /opt/ml/models/model2/model
-        |--[model_version_number]
-            |--assets
-            |--variables
-            |--saved_model.pb
