@@ -1,9 +1,5 @@
 # BigDataFinalProject
 
-Link to application: [Application](https://share.streamlit.io/akshatananjappa/salesforcaststreamlit/app.py)
-
-How to set up the application [Here](https://codelabs-preview.appspot.com/?file_id=1M49JLASvF8Pfw_X8auKdtac0mHXgCW00HBbo3u1KCag#5)
-
 ![PyPI license](https://img.shields.io/pypi/l/ansicolortags.svg)  [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 
 # Store Sales Data Analysis for Corporacion Favorita
