@@ -18,14 +18,14 @@ Vachana Belgavi <br />
 ##### Streamlit Application<br />
 [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](http://shields.io/)
 
-Quick access to the frontend web application built using Streamlit: 
- https://share.streamlit.io/akshatananjappa/salesforcaststreamlit/app.py
+![Quick access to the frontend web application built using Streamlit] 
+ (https://share.streamlit.io/akshatananjappa/salesforcaststreamlit/app.py)
 
 ## Architecture Diagram
 ![](Diagram.jpeg)
 
-### Codelab document
-https://codelabs-preview.appspot.com/?file_id=1QweinXID7XM22HwfUxpUpqQj_xby4-Eq1p3Wejzg2cA#4
+### ![Codelabs document]
+(https://codelabs-preview.appspot.com/?file_id=1M49JLASvF8Pfw_X8auKdtac0mHXgCW00HBbo3u1KCag#5)
 
 ## Steps to Reproduce Architecture
 ### Roles
