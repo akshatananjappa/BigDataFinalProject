@@ -7,3 +7,4 @@ boto3
 botocore
 mangum==0.11.0
 matplotlib
+starlette>=0.49.1 # not directly required, pinned by Snyk to avoid a vulnerability
